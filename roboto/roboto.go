@@ -23,19 +23,19 @@ import (
 )
 
 var (
-	RegularThin   = font.Font{Typeface: "Roboto", Variant: "", Style: font.Regular, Weight: font.Thin}
-	RegularLight  = font.Font{Typeface: "Roboto", Variant: "", Style: font.Regular, Weight: font.Light}
-	RegularNormal = font.Font{Typeface: "Roboto", Variant: "", Style: font.Regular, Weight: font.Normal}
-	RegularMedium = font.Font{Typeface: "Roboto", Variant: "", Style: font.Regular, Weight: font.Medium}
-	RegularBold   = font.Font{Typeface: "Roboto", Variant: "", Style: font.Regular, Weight: font.Bold}
-	RegularBlack  = font.Font{Typeface: "Roboto", Variant: "", Style: font.Regular, Weight: font.Black}
+	RegularThin   = font.Font{Typeface: "Roboto", Style: font.Regular, Weight: font.Thin}
+	RegularLight  = font.Font{Typeface: "Roboto", Style: font.Regular, Weight: font.Light}
+	RegularNormal = font.Font{Typeface: "Roboto", Style: font.Regular, Weight: font.Normal}
+	RegularMedium = font.Font{Typeface: "Roboto", Style: font.Regular, Weight: font.Medium}
+	RegularBold   = font.Font{Typeface: "Roboto", Style: font.Regular, Weight: font.Bold}
+	RegularBlack  = font.Font{Typeface: "Roboto", Style: font.Regular, Weight: font.Black}
 
-	ItalicThin   = font.Font{Typeface: "Roboto", Variant: "", Style: font.Italic, Weight: font.Thin}
-	ItalicLight  = font.Font{Typeface: "Roboto", Variant: "", Style: font.Italic, Weight: font.Light}
-	ItalicNormal = font.Font{Typeface: "Roboto", Variant: "", Style: font.Italic, Weight: font.Normal}
-	ItalicMedium = font.Font{Typeface: "Roboto", Variant: "", Style: font.Italic, Weight: font.Medium}
-	ItalicBold   = font.Font{Typeface: "Roboto", Variant: "", Style: font.Italic, Weight: font.Bold}
-	ItalicBlack  = font.Font{Typeface: "Roboto", Variant: "", Style: font.Italic, Weight: font.Black}
+	ItalicThin   = font.Font{Typeface: "Roboto", Style: font.Italic, Weight: font.Thin}
+	ItalicLight  = font.Font{Typeface: "Roboto", Style: font.Italic, Weight: font.Light}
+	ItalicNormal = font.Font{Typeface: "Roboto", Style: font.Italic, Weight: font.Normal}
+	ItalicMedium = font.Font{Typeface: "Roboto", Style: font.Italic, Weight: font.Medium}
+	ItalicBold   = font.Font{Typeface: "Roboto", Style: font.Italic, Weight: font.Bold}
+	ItalicBlack  = font.Font{Typeface: "Roboto", Style: font.Italic, Weight: font.Black}
 )
 
 var fontfaces struct {

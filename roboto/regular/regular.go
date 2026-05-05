@@ -16,12 +16,12 @@ import (
 )
 
 var (
-	Thin   = font.Font{Typeface: "Roboto", Variant: "", Style: font.Regular, Weight: font.Thin}
-	Light  = font.Font{Typeface: "Roboto", Variant: "", Style: font.Regular, Weight: font.Light}
-	Normal = font.Font{Typeface: "Roboto", Variant: "", Style: font.Regular, Weight: font.Normal}
-	Medium = font.Font{Typeface: "Roboto", Variant: "", Style: font.Regular, Weight: font.Medium}
-	Bold   = font.Font{Typeface: "Roboto", Variant: "", Style: font.Regular, Weight: font.Bold}
-	Black  = font.Font{Typeface: "Roboto", Variant: "", Style: font.Regular, Weight: font.Black}
+	Thin   = font.Font{Typeface: "Roboto", Style: font.Regular, Weight: font.Thin}
+	Light  = font.Font{Typeface: "Roboto", Style: font.Regular, Weight: font.Light}
+	Normal = font.Font{Typeface: "Roboto", Style: font.Regular, Weight: font.Normal}
+	Medium = font.Font{Typeface: "Roboto", Style: font.Regular, Weight: font.Medium}
+	Bold   = font.Font{Typeface: "Roboto", Style: font.Regular, Weight: font.Bold}
+	Black  = font.Font{Typeface: "Roboto", Style: font.Regular, Weight: font.Black}
 )
 
 var fontfaces struct {

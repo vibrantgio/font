@@ -9,7 +9,7 @@ import (
 	"gioui.org/font/opentype"
 )
 
-var Font = font.Font{Typeface: "Roboto", Variant: "", Style: font.Regular, Weight: font.Normal}
+var Font = font.Font{Typeface: "Roboto", Style: font.Regular, Weight: font.Normal}
 
 var face struct {
 	once  sync.Once
