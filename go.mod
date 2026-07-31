@@ -4,10 +4,10 @@ go 1.24.1
 
 require (
 	eliasnaur.com/font v0.0.0-20230308162249-dd43949cb42d
-	gioui.org v0.9.0
+	gioui.org v0.10.1
 )
 
 require (
-	github.com/go-text/typesetting v0.3.0 // indirect
+	github.com/go-text/typesetting v0.3.4 // indirect
 	golang.org/x/image v0.26.0 // indirect
 )
