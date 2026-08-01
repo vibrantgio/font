@@ -1,6 +1,6 @@
 # font
 
-Roboto packaged as Gio font faces, for [VibrantGio](https://github.com/vibrantgio),
+Roboto packaged as Gio font faces, for [Vibrant Gio](https://github.com/vibrantgio),
 a design system for native desktop applications on macOS, Windows and Linux,
 written in pure Go on [Gio](https://gioui.org). This repository is the
 typeface, and nothing else: no theme, no scale, no widgets.
