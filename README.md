@@ -1,9 +1,10 @@
 # font
 
-Roboto packaged as Gio font faces, for [Vibrant Gio](https://github.com/vibrantgio),
+Roboto — and its companion monospace face, Roboto Mono — packaged as Gio font
+faces, for [Vibrant Gio](https://github.com/vibrantgio),
 a design system for native desktop applications on macOS, Windows and Linux,
 written in pure Go on [Gio](https://gioui.org). This repository is the
-typeface, and nothing else: no theme, no scale, no widgets.
+typefaces, and nothing else: no theme, no scale, no widgets.
 
 Gio does not ship Roboto. It ships `gioui.org/font/gofont`, the Go typeface,
 and that is the collection every example in the Gio world reaches for. Getting
@@ -51,11 +52,16 @@ Every module in the organization is on gioui.org v0.10.1 and Go 1.25.1.
 | `roboto/regular` | The six upright weights as `Thin`, `Light`, `Normal`, `Medium`, `Bold`, `Black`, and a six-face `FontFaces()`. |
 | `roboto/italic` | The same six weights, italic, under the same six names. |
 | `roboto/{regular,italic}/{thin,light,normal,medium,bold,black}` | Twelve leaf packages, one face each: a `Font` value and a `FontFace()` that parses exactly that TTF. Import one to link one weight. |
+| `robotomono` | Roboto Mono, typeface name `"Roboto Mono"`. Four `font.Font` values — `RegularNormal`, `RegularBold`, `ItalicNormal`, `ItalicBold` — and `FontFaces()`, which parses and returns all four. Only the weights the markdown code path shapes are packaged (G-F0). |
+| `robotomono/{regular,italic}` | The two weights of one style as `Normal` and `Bold`, and a two-face `FontFaces()`. |
+| `robotomono/{regular,italic}/{normal,bold}` | Four leaf packages, one face each, embedding exactly that TTF. |
 
 The root package `github.com/vibrantgio/font` is empty — see Status.
 
 The counts are exact: `roboto.FontFaces()` returns 12, `roboto/regular` and
-`roboto/italic` return 6 each, and a leaf's `FontFace()` returns one.
+`roboto/italic` return 6 each, `robotomono.FontFaces()` returns 4,
+`robotomono/regular` and `robotomono/italic` return 2 each, and a leaf's
+`FontFace()` returns one.
 
 ## Usage
 
@@ -124,10 +130,11 @@ Honest about what does not work yet. Every count below is measured.
   returns an error; both `panic` if `opentype.Parse` rejects the TTF. The bytes
   are compiled in, so this cannot fail at run time for a build that linked, but
   there is no seam for a caller-supplied font file either.
-- **Roboto is the only family.** There is no API to register another typeface,
-  so an application that wants its own brand face cannot get one through this
-  module — it builds the `[]font.FontFace` itself. Phase C's `Typography` token
-  carries the face collection precisely so a caller can substitute it there.
+- **Roboto and Roboto Mono are the only families.** There is no API to
+  register another typeface, so an application that wants its own brand face
+  cannot get one through this module — it builds the `[]font.FontFace` itself.
+  Phase C's `Typography` token carries the face collection precisely so a
+  caller can substitute it there.
 - **Eleven of the sixteen packages have no consumer anywhere.** Only five leaves
   are imported by anything in the organization — `roboto/regular/thin`,
   `light`, `normal`, `medium` and `bold`, all five by `style`, and `normal`
@@ -136,10 +143,18 @@ Honest about what does not work yet. Every count below is measured.
   and `roboto/italic`, and the empty module root — are imported by nothing at
   all. `FontFaces()`, the twelve-face call this README opens with and the one
   C1.2 is written against, has no caller yet.
-- **There are no tests.** `go test ./...` reports "no test files" for all
-  sixteen packages. The face counts and weight assignments in this README were
-  measured against the built module, not asserted by a test in it.
+- **The Roboto packages have no tests.** `go test ./...` reports "no test
+  files" for all sixteen Roboto-side packages; their face counts and weight
+  assignments in this README were measured against the built module, not
+  asserted by a test in it. The `robotomono` package does carry tests, which
+  parse all four embedded TTFs and assert their metadata.
 
 ## License
 
-MIT — see [LICENSE](./LICENSE).
+MIT — see [LICENSE](./LICENSE). The font data carries its own licences: the
+Roboto TTFs come from `eliasnaur.com/font` (Apache 2.0), and the embedded
+Roboto Mono TTFs are the static instances from
+[googlefonts/RobotoMono](https://github.com/googlefonts/RobotoMono) under the
+SIL Open Font License 1.1 — see [robotomono/OFL.txt](./robotomono/OFL.txt).
+(Roboto Mono was historically Apache 2.0; the project relicensed to the OFL,
+and Google Fonts now distributes it under `ofl/robotomono`.)
