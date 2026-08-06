@@ -28,15 +28,16 @@ a leaf that imports nothing else in the organization, only
 `eliasnaur.com/font` and Gio. The
 [organization page](https://github.com/vibrantgio) has the full tier table.
 
-Three files anywhere in the organization import it today:
-[style](https://github.com/vibrantgio/style), which pulls in five of the
-leaves, and two `mvu/example` programs, which pull in one each. Everything else
-that draws text — every component in prism, pulse, cadence and markdown —
-compiles in gofont instead. That is the defect Phase C of the
-[org plan](https://github.com/vibrantgio/.github) fixes; C1.2 puts
-`roboto.FontFaces()` behind the typography token as the default face
-collection, and makes spectrum depend on this module, which is why the tier
-table carries a `font` row at all.
+Two modules in the organization import it today, and one of them is the one
+that matters: [spectrum](https://github.com/vibrantgio/spectrum)'s `tokens`
+package builds the default `Typography`'s face collection from
+`roboto.FontFaces()` and `robotomono.FontFaces()` (C1.2), so every component
+that shapes text through the theme renders these faces — which is why the
+tier table carries a `font` row at all. The other is the frozen
+[style](https://github.com/vibrantgio/style) module, whose deprecated scale
+still pulls in five of the upright leaves. The old defect — every component
+compiling in gofont — is gone the hard way: a no-gofont lint in prism, pulse,
+cadence and markdown fails `go test` on the import.
 
 ```sh
 go get github.com/vibrantgio/font
@@ -65,8 +66,13 @@ The counts are exact: `roboto.FontFaces()` returns 12, `roboto/regular` and
 
 ## Usage
 
-One weight, one face, one shaper — from `mvu/example/edit`, which draws into a
-`widget.Editor` and needs nothing but body text:
+First, the case where you do nothing: a Vibrant Gio application gets these
+faces through the theme — `tokens.DefaultTypography.Faces` is built from this
+module, and `Typography.Shaper()` is the one shaper — so an app never imports
+font directly. The calls below are for programs outside the theme system.
+
+One weight, one face, one shaper — for a program that draws nothing but body
+text:
 
 ```go
 import "github.com/vibrantgio/font/roboto/regular/normal"
@@ -112,16 +118,6 @@ typography, and the pitfalls that are not guessable:
 
 Honest about what does not work yet. Every count below is measured.
 
-- **This module is not wired into the component stack.** No library source
-  file in prism, pulse, cadence, markdown or spectrum imports it. Every one of
-  those components builds
-  `text.NewShaper(text.NoSystemFonts(), text.WithCollection(gofont.Collection()))`
-  for itself when no shaper is passed, so an application that forgets a
-  `Props.Shaper` renders in the Go typeface and nothing warns it. Phase C of
-  the [org plan](https://github.com/vibrantgio/.github) fixes this: C1.2 makes
-  `roboto.FontFaces()` the default face collection on the typography theme
-  token, and C2 removes the gofont fallbacks component by component behind a
-  CI lint that forbids the import in library source.
 - **The module root package is empty.** `doc.go` declares `package font` and
   nothing else — no exports, and no package comment — so importing
   `github.com/vibrantgio/font` gets you nothing, and the module's landing page
@@ -133,16 +129,15 @@ Honest about what does not work yet. Every count below is measured.
 - **Roboto and Roboto Mono are the only families.** There is no API to
   register another typeface, so an application that wants its own brand face
   cannot get one through this module — it builds the `[]font.FontFace` itself.
-  Phase C's `Typography` token carries the face collection precisely so a
+  The `Typography` theme token carries the face collection precisely so a
   caller can substitute it there.
-- **Eleven of the sixteen packages have no consumer anywhere.** Only five leaves
-  are imported by anything in the organization — `roboto/regular/thin`,
-  `light`, `normal`, `medium` and `bold`, all five by `style`, and `normal`
-  again by two `mvu` examples. The other eleven — `roboto/regular/black`, all
-  six italic leaves, the three aggregate packages `roboto`, `roboto/regular`
-  and `roboto/italic`, and the empty module root — are imported by nothing at
-  all. `FontFaces()`, the twelve-face call this README opens with and the one
-  C1.2 is written against, has no caller yet.
+- **The fine granularity is API, not practice.** Outside this module, only
+  the two whole-family aggregates and five leaves are imported: `roboto` and
+  `robotomono` by `spectrum/tokens` for the default face collection, and the
+  five upright leaves `roboto/regular/{thin,light,normal,medium,bold}` by the
+  frozen `style` module. The one-leaf-one-face granularity this README opens
+  with has no consumer left since the `mvu` examples moved onto the theme's
+  typography; it survives as API surface, exercised by nothing.
 - **The Roboto packages have no tests.** `go test ./...` reports "no test
   files" for all sixteen Roboto-side packages; their face counts and weight
   assignments in this README were measured against the built module, not
