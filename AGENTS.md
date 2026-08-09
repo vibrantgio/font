@@ -1,12 +1,15 @@
 # AGENTS.md — font
 
-Roboto packaged as Gio font faces: `font/roboto` names the twelve
-weight-and-style combinations as `font.Font` values and returns them all,
-lazily parsed, from `FontFaces()`; one leaf package per face —
-`roboto/regular/normal`, `roboto/italic/bold` and the rest — carries a
-single `Font` and its own `FontFace()`, so a program can link one weight
-instead of twelve. `robotomono` packages the four mono faces the markdown
-code path shapes, the same way.
+The design system's embedded typefaces, packaged as Gio font faces.
+`roboto` names the twelve weight-and-style combinations as `font.Font`
+values and returns them all, lazily parsed, from `FontFaces()`; one leaf
+package per face — `roboto/regular/normal`, `roboto/italic/bold` and the
+rest — carries a single `Font` and its own `FontFace()`, so a program can
+link one weight instead of twelve. `robotomono` packages the four mono
+faces the markdown code path shapes, the same way. `notosansmono` is a
+third family and a single face, carrying the symbols the other two lack; it
+is opt-in rather than part of spectrum's default collection, and the note
+below says why that is the design.
 
 **Layer.** Tier 0 of ADR-001's table — a leaf, needing only Gio and the
 Roboto TTFs in `eliasnaur.com/font`. spectrum's default typography takes
