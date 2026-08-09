@@ -8,11 +8,17 @@ single `Font` and its own `FontFace()`, so a program can link one weight
 instead of twelve. `robotomono` packages the four mono faces the markdown
 code path shapes, the same way.
 
-**Layer.** Tier 0 of ADR-001's table — a leaf that imports nothing else in
-the organization, only `eliasnaur.com/font` and Gio. Inside the org only
-`style` and `mvu/example` require it directly today; C1.2 makes spectrum
-depend on it for the default Roboto faces, which is why the tier table
-carries a `font` row at all.
+**Layer.** Tier 0 of ADR-001's table — a leaf, needing only Gio and the
+Roboto TTFs in `eliasnaur.com/font`. spectrum's default typography takes
+its faces from here, which is why the tier table carries a `font` row at
+all. Its root module imports nothing else in the organization. Imported by
+`cadence`, `markdown`, `prism`, `pulse`, `spectrum` and `style`. Outside
+the tier table, also by the demo modules `mvu/example` and `prism/gallery`,
+the adapter modules `ivg/raster/gio`, `svg/driver/gio` and `traer/gio` and
+all seven workbench applications. Both directions are measured rather than
+typed — `scripts/check-layers.sh --edges` reports the graph and
+`scripts/sync-agents.sh` renders these sentences from it — so correcting
+them here changes nothing.
 
 **Read the canonical guide before you write code against this module.** It is
 the organization's one agent guide — the module inventory with current tags,
