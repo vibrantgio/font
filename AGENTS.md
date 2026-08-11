@@ -15,7 +15,7 @@ below says why that is the design.
 Roboto TTFs in `eliasnaur.com/font`. theme's default typography takes its
 faces from here, which is why the tier table carries a `font` row at all.
 Its root module imports nothing else in the organization. Imported by
-`cadence`, `components`, `effects`, `markdown`, `style` and `theme`.
+`components`, `effects`, `markdown`, `patterns`, `style` and `theme`.
 Outside the tier table, also by the demo modules `components/gallery` and
 `mvu/example`, the adapter modules `ivg/raster/gio`, `svg/driver/gio` and
 `traer/gio` and all seven workbench applications. Both directions are
