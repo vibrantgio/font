@@ -23,7 +23,7 @@ family imports `roboto` and gets twelve. Both are one import.
 
 ## Where it sits
 
-Tier 0 of the stack — `mvu → theme → prism → pulse → cadence → markdown` —
+Tier 0 of the stack — `mvu → theme → components → pulse → cadence → markdown` —
 a leaf that imports nothing else in the organization, only
 `eliasnaur.com/font` and Gio. The
 [organization page](https://github.com/vibrantgio) has the full tier table.
@@ -36,7 +36,7 @@ that shapes text through the theme renders these faces — which is why the
 tier table carries a `font` row at all. The other is the frozen
 [style](https://github.com/vibrantgio/style) module, whose deprecated scale
 still pulls in five of the upright leaves. The old defect — every component
-compiling in gofont — is gone the hard way: a no-gofont lint in prism, pulse,
+compiling in gofont — is gone the hard way: a no-gofont lint in components, pulse,
 cadence and markdown fails `go test` on the import.
 
 ```sh

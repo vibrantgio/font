@@ -15,13 +15,13 @@ below says why that is the design.
 Roboto TTFs in `eliasnaur.com/font`. theme's default typography takes its
 faces from here, which is why the tier table carries a `font` row at all.
 Its root module imports nothing else in the organization. Imported by
-`cadence`, `markdown`, `prism`, `pulse`, `style` and `theme`. Outside the
-tier table, also by the demo modules `mvu/example` and `prism/gallery`, the
-adapter modules `ivg/raster/gio`, `svg/driver/gio` and `traer/gio` and all
-seven workbench applications. Both directions are measured rather than
-typed — `scripts/check-layers.sh --edges` reports the graph and
-`scripts/sync-agents.sh` renders these sentences from it — so correcting
-them here changes nothing.
+`cadence`, `components`, `markdown`, `pulse`, `style` and `theme`. Outside
+the tier table, also by the demo modules `components/gallery` and
+`mvu/example`, the adapter modules `ivg/raster/gio`, `svg/driver/gio` and
+`traer/gio` and all seven workbench applications. Both directions are
+measured rather than typed — `scripts/check-layers.sh --edges` reports the
+graph and `scripts/sync-agents.sh` renders these sentences from it — so
+correcting them here changes nothing.
 
 **Read the canonical guide before you write code against this module.** It is
 the organization's one agent guide — the module inventory with current tags,
