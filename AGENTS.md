@@ -8,17 +8,17 @@ rest — carries a single `Font` and its own `FontFace()`, so a program can
 link one weight instead of twelve. `robotomono` packages the four mono
 faces the markdown code path shapes, the same way. `notosansmono` is a
 third family and a single face, carrying the symbols the other two lack; it
-is opt-in rather than part of spectrum's default collection, and the note
+is opt-in rather than part of theme's default collection, and the note
 below says why that is the design.
 
 **Layer.** Tier 0 of ADR-001's table — a leaf, needing only Gio and the
-Roboto TTFs in `eliasnaur.com/font`. spectrum's default typography takes
-its faces from here, which is why the tier table carries a `font` row at
-all. Its root module imports nothing else in the organization. Imported by
-`cadence`, `markdown`, `prism`, `pulse`, `spectrum` and `style`. Outside
-the tier table, also by the demo modules `mvu/example` and `prism/gallery`,
-the adapter modules `ivg/raster/gio`, `svg/driver/gio` and `traer/gio` and
-all seven workbench applications. Both directions are measured rather than
+Roboto TTFs in `eliasnaur.com/font`. theme's default typography takes its
+faces from here, which is why the tier table carries a `font` row at all.
+Its root module imports nothing else in the organization. Imported by
+`cadence`, `markdown`, `prism`, `pulse`, `style` and `theme`. Outside the
+tier table, also by the demo modules `mvu/example` and `prism/gallery`, the
+adapter modules `ivg/raster/gio`, `svg/driver/gio` and `traer/gio` and all
+seven workbench applications. Both directions are measured rather than
 typed — `scripts/check-layers.sh --edges` reports the graph and
 `scripts/sync-agents.sh` renders these sentences from it — so correcting
 them here changes nothing.
@@ -40,7 +40,7 @@ and this file links it rather than copying it:
 **`notosansmono` is optional, and keeping it optional is the design.** It is
 Noto Sans Mono Regular — one weight — carrying the arrows, box drawing, block
 elements, geometric shapes, punctuation and operators Roboto and Roboto Mono
-lack. Do **not** add it to `tokens.DefaultTypography.Faces`: spectrum's default
+lack. Do **not** add it to `tokens.DefaultTypography.Faces`: theme's default
 shaper leaves system fonts on, so a desktop already covers those characters and
 more, and putting this face in the default would link 596 KB into every binary
 in the organization to duplicate the platform. It is for the case with no

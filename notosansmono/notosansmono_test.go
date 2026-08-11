@@ -49,7 +49,7 @@ func TestFontFaces(t *testing.T) {
 // collection and on the machine's fonts, and this assertion is about this file
 // alone. The resolution half — that a shaper carrying this face returns real
 // glyphs for these runes rather than the missing-glyph glyph — is asserted in
-// spectrum/tokens, where the shaper lives.
+// theme/tokens, where the shaper lives.
 func TestCoverage(t *testing.T) {
 	parsed, ok := notosansmono.FontFace().Face.(interface{ Face() *font.Face })
 	if !ok {

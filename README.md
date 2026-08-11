@@ -23,13 +23,13 @@ family imports `roboto` and gets twelve. Both are one import.
 
 ## Where it sits
 
-Tier 0 of the stack — `mvu → spectrum → prism → pulse → cadence → markdown` —
+Tier 0 of the stack — `mvu → theme → prism → pulse → cadence → markdown` —
 a leaf that imports nothing else in the organization, only
 `eliasnaur.com/font` and Gio. The
 [organization page](https://github.com/vibrantgio) has the full tier table.
 
 Two modules in the organization import it today, and one of them is the one
-that matters: [spectrum](https://github.com/vibrantgio/spectrum)'s `tokens`
+that matters: [theme](https://github.com/vibrantgio/theme)'s `tokens`
 package builds the default `Typography`'s face collection from
 `roboto.FontFaces()` and `robotomono.FontFaces()` (C1.2), so every component
 that shapes text through the theme renders these faces — which is why the
@@ -97,7 +97,7 @@ shaper := text.NewShaper(text.WithCollection(roboto.FontFaces()))
 Note what is *not* passed: `text.NoSystemFonts()`. Leaving the system fonts
 loaded keeps a fallback for glyphs Roboto lacks and for explicitly named
 families — markdown's code spans resolve through the generic `monospace`
-family, which only exists if system fonts are on. Spectrum's
+family, which only exists if system fonts are on. Theme's
 `Typography.Shaper()` follows the same rule since G-F4; the pinned
 configuration is a second method, `DeterministicShaper()`, and it is for tests.
 
@@ -164,7 +164,7 @@ Honest about what does not work yet. Every count below is measured.
   text that asks for them gets the regular face.
 - **The fine granularity is API, not practice.** Outside this module, only
   the two whole-family aggregates and five leaves are imported: `roboto` and
-  `robotomono` by `spectrum/tokens` for the default face collection, and the
+  `robotomono` by `theme/tokens` for the default face collection, and the
   five upright leaves `roboto/regular/{thin,light,normal,medium,bold}` by the
   frozen `style` module. The one-leaf-one-face granularity this README opens
   with has no consumer left since the `mvu` examples moved onto the theme's

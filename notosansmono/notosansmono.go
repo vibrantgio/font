@@ -11,7 +11,7 @@
 //
 // # It is optional, and that is the design
 //
-// It is deliberately not part of spectrum's DefaultTypography.Faces. The
+// It is deliberately not part of theme's DefaultTypography.Faces. The
 // default shaper leaves system fonts enabled, so on a normal desktop the
 // platform already covers these characters — and covers far more of them than
 // one embedded face ever could, emoji and CJK included. Paying 596 KB in every
