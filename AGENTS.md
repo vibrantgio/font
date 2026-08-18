@@ -18,7 +18,7 @@ Its root module imports nothing else in the organization. Imported by
 `components`, `effects`, `markdown`, `patterns`, `style` and `theme`.
 Outside the tier table, also by the demo modules `components/gallery` and
 `mvu/example`, the adapter modules `ivg/raster/gio`, `svg/driver/gio` and
-`traer/gio` and all eight workbench applications. Both directions are
+`traer/gio` and all seven workbench applications. Both directions are
 measured rather than typed — `scripts/check-layers.sh --edges` reports the
 graph and `scripts/sync-agents.sh` renders these sentences from it — so
 correcting them here changes nothing.
