@@ -6,10 +6,12 @@ values and returns them all, lazily parsed, from `FontFaces()`; one leaf
 package per face — `roboto/regular/normal`, `roboto/italic/bold` and the
 rest — carries a single `Font` and its own `FontFace()`, so a program can
 link one weight instead of twelve. `robotomono` packages the four monospace
-faces the same way. `notosansmono` is a third family and a single face,
-carrying the symbols the other two lack; it is opt-in rather than part of
-the default typography's collection, and the note below says why that is
-the design.
+faces the same way. `jetbrainsmono` is the same four-face layout under the
+typeface name "JetBrains Mono", packaged beside Roboto Mono and not part of
+the default collection. `notosansmono` is a fourth family and a single
+face, carrying the symbols the other two lack; it is opt-in rather than
+part of the default typography's collection, and the note below says why
+that is the design.
 
 **Layer.** Tier 0 of ADR-001's table — a leaf, needing only Gio; every TTF
 is embedded in this repository. It is in the tier table rather than the

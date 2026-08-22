@@ -1,7 +1,8 @@
 # font
 
-Roboto — its companion monospace face, Roboto Mono, and an optional symbol
-face — packaged as Gio font faces, for [Vibrant Gio](https://github.com/vibrantgio),
+Roboto — its companion monospace face, Roboto Mono, a second monospace
+family, JetBrains Mono, and an optional symbol face — packaged as Gio
+font faces, for [Vibrant Gio](https://github.com/vibrantgio),
 a design system for native desktop applications on macOS, Windows and Linux,
 written in pure Go on [Gio](https://gioui.org). This repository is the
 typefaces, and nothing else: no theme, no scale, no widgets.
@@ -57,6 +58,9 @@ Every module in the organization is on gioui.org v0.10.2 and Go 1.25.1.
 | `robotomono` | Roboto Mono, typeface name `"Roboto Mono"`. Four `font.Font` values — `RegularNormal`, `RegularBold`, `ItalicNormal`, `ItalicBold` — and `FontFaces()`, which parses and returns all four. Only the weights the markdown code path shapes are packaged (G-F0). |
 | `robotomono/{regular,italic}` | The two weights of one style as `Normal` and `Bold`, and a two-face `FontFaces()`. |
 | `robotomono/{regular,italic}/{normal,bold}` | Four leaf packages, one face each, embedding exactly that TTF. |
+| `jetbrainsmono` | JetBrains Mono, typeface name `"JetBrains Mono"`. Four `font.Font` values — `RegularNormal`, `RegularBold`, `ItalicNormal`, `ItalicBold` — and `FontFaces()`, which parses and returns all four. The same four-face layout as `robotomono`; not the default Code face and not in the default collection (G-AC1). |
+| `jetbrainsmono/{regular,italic}` | The two weights of one style as `Normal` and `Bold`, and a two-face `FontFaces()`. |
+| `jetbrainsmono/{regular,italic}/{normal,bold}` | Four leaf packages, one face each, embedding exactly that TTF. |
 | `notosansmono` | The optional symbol face, typeface name `"Noto Sans Mono"`. One weight, so the family package is the leaf: `Font`, `FontFace()`, and a one-entry `FontFaces()`. Arrows, box drawing, block elements, geometric shapes and the punctuation and operators Roboto lacks (G-F4). |
 
 The root package `github.com/vibrantgio/font` is empty — see Status.
@@ -64,6 +68,8 @@ The root package `github.com/vibrantgio/font` is empty — see Status.
 The counts are exact: `roboto.FontFaces()` returns 12, `roboto/regular` and
 `roboto/italic` return 6 each, `robotomono.FontFaces()` returns 4,
 `robotomono/regular` and `robotomono/italic` return 2 each,
+`jetbrainsmono.FontFaces()` returns 4,
+`jetbrainsmono/regular` and `jetbrainsmono/italic` return 2 each,
 `notosansmono.FontFaces()` returns 1, and a leaf's `FontFace()` returns one.
 
 ## Usage
@@ -156,10 +162,12 @@ Honest about what does not work yet. Every count below is measured.
   returns an error; both `panic` if `opentype.Parse` rejects the TTF. The bytes
   are compiled in, so this cannot fail at run time for a build that linked, but
   there is no seam for a caller-supplied font file either.
-- **These three families are the only ones.** There is no API to register
+- **These four families are the only ones.** There is no API to register
   another typeface, so an application that wants its own brand face cannot get
   one through this module — it builds the `font.FontFace` itself. Adding it to
   the theme is one line, though: `tokens.DefaultTypography.WithFaces(face)`.
+  JetBrains Mono is packaged here and is not in `DefaultTypography`: Roboto
+  Mono remains the default Code face.
 - **The symbol face is one weight and one style.** `notosansmono` is Noto Sans
   Mono Regular and nothing else. Bold or italic symbols are not available, and
   text that asks for them gets the regular face.
@@ -173,8 +181,9 @@ Honest about what does not work yet. Every count below is measured.
 - **The Roboto packages have no tests.** `go test ./...` reports "no test
   files" for all sixteen Roboto-side packages; their face counts and weight
   assignments in this README were measured against the built module, not
-  asserted by a test in it. The `robotomono` and `notosansmono` packages do
-  carry tests, which parse the embedded TTFs and assert their metadata —
+  asserted by a test in it. The `robotomono`, `jetbrainsmono` and
+  `notosansmono` packages do carry tests, which parse the embedded TTFs
+  and assert their metadata —
   `notosansmono`'s also asserts the coverage table above, block by block, so
   the documentation cannot drift from the file.
 
@@ -187,7 +196,11 @@ Roboto Mono TTFs are the static instances from
 [googlefonts/RobotoMono](https://github.com/googlefonts/RobotoMono) under the
 SIL Open Font License 1.1 — see [robotomono/OFL.txt](./robotomono/OFL.txt).
 (Roboto Mono was historically Apache 2.0; the project relicensed to the OFL,
-and Google Fonts now distributes it under `ofl/robotomono`.) The symbol face is
+and Google Fonts now distributes it under `ofl/robotomono`.) The JetBrains
+Mono TTFs are the static instances from
+[JetBrains/JetBrainsMono](https://github.com/JetBrains/JetBrainsMono) under
+the SIL Open Font License 1.1 — see
+[jetbrainsmono/OFL.txt](./jetbrainsmono/OFL.txt). The symbol face is
 the static Regular instance of Noto Sans Mono v2.014, from the Noto project's
 own [release](https://github.com/notofonts/latin-greek-cyrillic/releases/tag/NotoSansMono-v2.014),
 also under the SIL Open Font License 1.1 — see
