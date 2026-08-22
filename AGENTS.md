@@ -71,6 +71,9 @@ the same way as the symbol face:
     tokens.DefaultTypography.WithFaces(notocoloremoji.FontFace())
 
 Nothing names `"Noto Color Emoji"` as a role's Typeface; the shaper reaches
-it only as fallback. The package comment records the file's SHA-256, that
-the face is one 109 ppem CBDT/PNG strike, and the measured ZWJ behaviour
-(go-text applies the face's GSUB; this package does not compose sequences).
+it only as fallback. The live stream wears it: `Typography.WithEmoji` /
+`EmojiTypography()` append this face, and `LiveTheme` / `Brand` emit that
+value. Goldens stay on `DefaultTypography`. The package comment records
+the file's SHA-256, that the face is one 109 ppem CBDT/PNG strike, and the
+measured ZWJ behaviour (go-text applies the face's GSUB; this package does
+not compose sequences).
