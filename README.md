@@ -1,8 +1,9 @@
 # font
 
 Roboto — its companion monospace face, Roboto Mono, a second monospace
-family, JetBrains Mono, and an optional symbol face — packaged as Gio
-font faces, for [Vibrant Gio](https://github.com/vibrantgio),
+family, JetBrains Mono, an optional symbol face, and an optional
+color-emoji face — packaged as Gio font faces, for
+[Vibrant Gio](https://github.com/vibrantgio),
 a design system for native desktop applications on macOS, Windows and Linux,
 written in pure Go on [Gio](https://gioui.org). This repository is the
 typefaces, and nothing else: no theme, no scale, no widgets.
@@ -62,6 +63,7 @@ Every module in the organization is on gioui.org v0.10.2 and Go 1.25.1.
 | `jetbrainsmono/{regular,italic}` | The two weights of one style as `Normal` and `Bold`, and a two-face `FontFaces()`. |
 | `jetbrainsmono/{regular,italic}/{normal,bold}` | Four leaf packages, one face each, embedding exactly that TTF. |
 | `notosansmono` | The optional symbol face, typeface name `"Noto Sans Mono"`. One weight, so the family package is the leaf: `Font`, `FontFace()`, and a one-entry `FontFaces()`. Arrows, box drawing, block elements, geometric shapes and the punctuation and operators Roboto lacks (G-F4). |
+| `notocoloremoji` | The optional color-emoji face, typeface name `"Noto Color Emoji"`. One weight, so the family package is the leaf: `Font`, `FontFace()`, and a one-entry `FontFaces()`. CBDT/PNG color emoji the rest of the collection cannot resolve (G-AD1). The shaper reaches it only as fallback; nothing names this typeface as a role. |
 
 The root package `github.com/vibrantgio/font` is empty — see Status.
 
@@ -70,7 +72,8 @@ The counts are exact: `roboto.FontFaces()` returns 12, `roboto/regular` and
 `robotomono/regular` and `robotomono/italic` return 2 each,
 `jetbrainsmono.FontFaces()` returns 4,
 `jetbrainsmono/regular` and `jetbrainsmono/italic` return 2 each,
-`notosansmono.FontFaces()` returns 1, and a leaf's `FontFace()` returns one.
+`notosansmono.FontFaces()` returns 1, `notocoloremoji.FontFaces()`
+returns 1, and a leaf's `FontFace()` returns one.
 
 ## Usage
 
@@ -134,6 +137,30 @@ cardinal, double and long-tailed forms, and the operators are the ones prose
 uses. Diagonal arrows, the large operators (∑ ∏ ∫), dingbats (✓ ✗ ★), emoji and
 CJK are not covered — `WithFaces` takes as many faces as you give it.
 
+### The optional color-emoji face
+
+Gio's system fallback does not supply a color-emoji face. Apple Color Emoji
+can be installed on the machine and still lose: both `Typography.Shaper()`
+and `DeterministicShaper()` resolve `😀` to Roboto's `.notdef` unless this
+face is in the collection. Append it the same way as the symbol face:
+
+```go
+import "github.com/vibrantgio/font/notocoloremoji"
+
+typ := tokens.DefaultTypography.WithFaces(notocoloremoji.FontFace())
+```
+
+It is deliberately **not** in `tokens.DefaultTypography.Faces`. Adding it
+there would parse 9.9 MB on every golden and every pinned shaper in the
+organization, and no existing golden contains emoji. Nothing names
+`"Noto Color Emoji"` as a role's Typeface; the shaper reaches it only as
+fallback.
+
+The face is one 109 ppem CBDT strike of format-17 PNGs. go-text applies
+the face's GSUB, so ZWJ sequences this face ligates (`👨‍👩‍👧‍👦`, flags,
+professions, skin tones) shape to one glyph. This package does not
+compose sequences itself.
+
 Once the collection is in the shaper, its typefaces become the shaper's default
 families, so a widget that lays text out with a zero `font.Font{}` — empty
 typeface, Normal weight — resolves to Roboto without naming it. That is how
@@ -162,15 +189,20 @@ Honest about what does not work yet. Every count below is measured.
   returns an error; both `panic` if `opentype.Parse` rejects the TTF. The bytes
   are compiled in, so this cannot fail at run time for a build that linked, but
   there is no seam for a caller-supplied font file either.
-- **These four families are the only ones.** There is no API to register
+- **These five families are the only ones.** There is no API to register
   another typeface, so an application that wants its own brand face cannot get
   one through this module — it builds the `font.FontFace` itself. Adding it to
   the theme is one line, though: `tokens.DefaultTypography.WithFaces(face)`.
   JetBrains Mono is packaged here and is not in `DefaultTypography`: Roboto
-  Mono remains the default Code face.
+  Mono remains the default Code face. Noto Color Emoji is packaged here and
+  is not in `DefaultTypography` either: the default collection stays Roboto
+  and Roboto Mono.
 - **The symbol face is one weight and one style.** `notosansmono` is Noto Sans
   Mono Regular and nothing else. Bold or italic symbols are not available, and
   text that asks for them gets the regular face.
+- **The color-emoji face is one weight and one style.** `notocoloremoji` is
+  Noto Color Emoji Regular and nothing else. It has no Latin, and text that
+  asks it for `'A'` gets `.notdef`.
 - **The fine granularity is API, not practice.** Outside this module, only
   the two whole-family aggregates and five leaves are imported: `roboto` and
   `robotomono` by `theme/tokens` for the default face collection, and the
@@ -181,11 +213,13 @@ Honest about what does not work yet. Every count below is measured.
 - **The Roboto packages have no tests.** `go test ./...` reports "no test
   files" for all sixteen Roboto-side packages; their face counts and weight
   assignments in this README were measured against the built module, not
-  asserted by a test in it. The `robotomono`, `jetbrainsmono` and
-  `notosansmono` packages do carry tests, which parse the embedded TTFs
-  and assert their metadata —
+  asserted by a test in it. The `robotomono`, `jetbrainsmono`,
+  `notosansmono` and `notocoloremoji` packages do carry tests, which parse
+  the embedded TTFs and assert their metadata —
   `notosansmono`'s also asserts the coverage table above, block by block, so
-  the documentation cannot drift from the file.
+  the documentation cannot drift from the file, and `notocoloremoji`'s
+  asserts the emoji probes, that `GlyphData` is a PNG, and that a pinned
+  shaper on this collection resolves 😀 and does not resolve `'A'`.
 
 ## License
 
@@ -204,4 +238,6 @@ the SIL Open Font License 1.1 — see
 the static Regular instance of Noto Sans Mono v2.014, from the Noto project's
 own [release](https://github.com/notofonts/latin-greek-cyrillic/releases/tag/NotoSansMono-v2.014),
 also under the SIL Open Font License 1.1 — see
-[notosansmono/OFL.txt](./notosansmono/OFL.txt).
+[notosansmono/OFL.txt](./notosansmono/OFL.txt). The color-emoji face is
+Noto Color Emoji Regular, also under the SIL Open Font License 1.1 — see
+[notocoloremoji/OFL.txt](./notocoloremoji/OFL.txt).

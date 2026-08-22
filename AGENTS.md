@@ -11,7 +11,9 @@ typeface name "JetBrains Mono", packaged beside Roboto Mono and not part of
 the default collection. `notosansmono` is a fourth family and a single
 face, carrying the symbols the other two lack; it is opt-in rather than
 part of the default typography's collection, and the note below says why
-that is the design.
+that is the design. `notocoloremoji` is a fifth family and a single face,
+carrying Noto Color Emoji as an optional fallback; it is not part of the
+default typography's collection either, and the note below says why.
 
 **Layer.** Tier 0 of ADR-001's table — a leaf, needing only Gio; every TTF
 is embedded in this repository. It is in the tier table rather than the
@@ -56,3 +58,19 @@ same way, in one line:
 The package comment carries the measured coverage table and the file's
 provenance and SHA-256; `notosansmono_test.go` asserts that table block by
 block, so change the TTF and the test tells you what moved.
+
+**`notocoloremoji` is optional, and keeping it optional is the design.** It is
+Noto Color Emoji Regular — one weight — carrying the CBDT/PNG color emoji
+the rest of the collection cannot resolve. Do **not** add it to
+`tokens.DefaultTypography.Faces`: putting 9.9 MB in the default would parse
+that TTF on every golden and every pinned shaper in the organization, and no
+existing golden contains emoji. Gio's system fallback does not supply a
+color-emoji face either, so a document that draws emoji appends this one
+the same way as the symbol face:
+
+    tokens.DefaultTypography.WithFaces(notocoloremoji.FontFace())
+
+Nothing names `"Noto Color Emoji"` as a role's Typeface; the shaper reaches
+it only as fallback. The package comment records the file's SHA-256, that
+the face is one 109 ppem CBDT/PNG strike, and the measured ZWJ behaviour
+(go-text applies the face's GSUB; this package does not compose sequences).
