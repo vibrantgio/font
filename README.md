@@ -44,7 +44,7 @@ patterns and markdown fails `go test` on the import.
 go get github.com/vibrantgio/font
 ```
 
-Every module in the organization is on gioui.org v0.10.1 and Go 1.25.1.
+Every module in the organization is on gioui.org v0.10.2 and Go 1.25.1.
 
 ## Packages
 
