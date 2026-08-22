@@ -1,18 +1,14 @@
 package regular
 
 import (
-	"fmt"
-	"sync"
-
-	"eliasnaur.com/font/roboto/robotoblack"
-	"eliasnaur.com/font/roboto/robotobold"
-	"eliasnaur.com/font/roboto/robotolight"
-	"eliasnaur.com/font/roboto/robotomedium"
-	"eliasnaur.com/font/roboto/robotoregular"
-	"eliasnaur.com/font/roboto/robotothin"
-
 	"gioui.org/font"
-	"gioui.org/font/opentype"
+
+	"github.com/vibrantgio/font/roboto/regular/black"
+	"github.com/vibrantgio/font/roboto/regular/bold"
+	"github.com/vibrantgio/font/roboto/regular/light"
+	"github.com/vibrantgio/font/roboto/regular/medium"
+	"github.com/vibrantgio/font/roboto/regular/normal"
+	"github.com/vibrantgio/font/roboto/regular/thin"
 )
 
 var (
@@ -24,27 +20,14 @@ var (
 	Black  = font.Font{Typeface: "Roboto", Style: font.Regular, Weight: font.Black}
 )
 
-var fontfaces struct {
-	once       sync.Once
-	collection []font.FontFace
-}
-
+// FontFaces returns all six faces, parsed lazily by their leaf packages.
 func FontFaces() []font.FontFace {
-	register := func(f font.Font, ttf []byte) {
-		face, err := opentype.Parse(ttf)
-		if err != nil {
-			panic(fmt.Sprintf("failed to parse font: %v", err))
-		}
-		fontfaces.collection = append(fontfaces.collection, font.FontFace{Font: f, Face: face})
+	return []font.FontFace{
+		normal.FontFace(),
+		thin.FontFace(),
+		light.FontFace(),
+		medium.FontFace(),
+		bold.FontFace(),
+		black.FontFace(),
 	}
-	fontfaces.once.Do(func() {
-		register(Normal, robotoregular.TTF)
-		register(Thin, robotothin.TTF)
-		register(Light, robotolight.TTF)
-		register(Medium, robotomedium.TTF)
-		register(Bold, robotobold.TTF)
-		register(Black, robotoblack.TTF)
-	})
-	n := len(fontfaces.collection)
-	return fontfaces.collection[0:n:n]
 }

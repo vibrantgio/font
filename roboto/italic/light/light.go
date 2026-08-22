@@ -1,13 +1,21 @@
+// Package light is the Roboto italic light face.
+//
+// The TTF is embedded from this repository — see LICENSE in the roboto
+// package root (Apache License 2.0).
 package light
 
 import (
+	_ "embed"
 	"sync"
-
-	roboto "eliasnaur.com/font/roboto/robotolightitalic"
 
 	"gioui.org/font"
 	"gioui.org/font/opentype"
 )
+
+// TTF is the embedded TrueType font file.
+//
+//go:embed Roboto-LightItalic.ttf
+var TTF []byte
 
 var Font = font.Font{Typeface: "Roboto", Style: font.Italic, Weight: font.Light}
 
@@ -18,7 +26,7 @@ var face struct {
 
 func FontFace() font.FontFace {
 	face.once.Do(func() {
-		if value, err := opentype.Parse(roboto.TTF); err == nil {
+		if value, err := opentype.Parse(TTF); err == nil {
 			face.value = value
 		} else {
 			panic("failed to parse font")

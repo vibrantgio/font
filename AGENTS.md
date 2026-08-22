@@ -11,8 +11,8 @@ carrying the symbols the other two lack; it is opt-in rather than part of
 the default typography's collection, and the note below says why that is
 the design.
 
-**Layer.** Tier 0 of ADR-001's table — a leaf, needing only Gio and the
-Roboto TTFs in `eliasnaur.com/font`. It is in the tier table rather than
+**Layer.** Tier 0 of ADR-001's table — a leaf, needing only Gio; every
+TTF is embedded in this repository. It is in the tier table rather than
 the support row because the faces it packages are the design system's own,
 not a general-purpose library that happens to be usable from it. Its root
 module imports nothing else in the organization. That direction is measured

@@ -8,12 +8,13 @@ typefaces, and nothing else: no theme, no scale, no widgets.
 
 Gio does not ship Roboto. It ships `gioui.org/font/gofont`, the Go typeface,
 and that is the collection every example in the Gio world reaches for. Getting
-Roboto instead means finding the TTF bytes — `eliasnaur.com/font/roboto/*`
-publishes one package per weight — calling `opentype.Parse` on them, handling
-the error, and assembling a `[]font.FontFace` before you can build a
+Roboto instead means finding the TTF bytes, calling `opentype.Parse` on them,
+handling the error, and assembling a `[]font.FontFace` before you can build a
 `*text.Shaper`. Every program that wanted Roboto wrote that loop. This module
-writes it once, parses lazily behind a `sync.Once`, and offers the result at
-three granularities: all twelve faces, the six of one style, or exactly one.
+embeds the twelve faces, writes that loop once, parses lazily behind a
+`sync.Once`, and offers the result at three granularities: all twelve faces,
+the six of one style, or exactly one. A consumer that is not a Gio shaper
+takes the same file from a leaf's `TTF` bytes.
 
 The granularity is the point. A `FontFace` is a parsed font, and parsing twelve
 of them costs both time at first use and the TTF bytes linked into the binary.
@@ -25,7 +26,7 @@ family imports `roboto` and gets twelve. Both are one import.
 
 Tier 0 of the stack — `mvu → theme → components → effects → patterns → markdown` —
 a leaf that imports nothing else in the organization, only
-`eliasnaur.com/font` and Gio. The
+Gio; every TTF is embedded in this repository. The
 [organization page](https://github.com/vibrantgio) has the full tier table.
 
 Two modules in the organization import it today, and one of them is the one
@@ -52,7 +53,7 @@ Every module in the organization is on gioui.org v0.10.1 and Go 1.25.1.
 | `roboto` | The whole family. Twelve `font.Font` values named `RegularThin` … `RegularBlack` and `ItalicThin` … `ItalicBlack`, and `FontFaces()`, which parses and returns all twelve. |
 | `roboto/regular` | The six upright weights as `Thin`, `Light`, `Normal`, `Medium`, `Bold`, `Black`, and a six-face `FontFaces()`. |
 | `roboto/italic` | The same six weights, italic, under the same six names. |
-| `roboto/{regular,italic}/{thin,light,normal,medium,bold,black}` | Twelve leaf packages, one face each: a `Font` value and a `FontFace()` that parses exactly that TTF. Import one to link one weight. |
+| `roboto/{regular,italic}/{thin,light,normal,medium,bold,black}` | Twelve leaf packages, one face each: a `Font` value, a `FontFace()` that parses exactly that TTF, and the raw bytes as `TTF`. Import one to link one weight. |
 | `robotomono` | Roboto Mono, typeface name `"Roboto Mono"`. Four `font.Font` values — `RegularNormal`, `RegularBold`, `ItalicNormal`, `ItalicBold` — and `FontFaces()`, which parses and returns all four. Only the weights the markdown code path shapes are packaged (G-F0). |
 | `robotomono/{regular,italic}` | The two weights of one style as `Normal` and `Bold`, and a two-face `FontFaces()`. |
 | `robotomono/{regular,italic}/{normal,bold}` | Four leaf packages, one face each, embedding exactly that TTF. |
@@ -180,7 +181,8 @@ Honest about what does not work yet. Every count below is measured.
 ## License
 
 MIT — see [LICENSE](./LICENSE). The font data carries its own licences: the
-Roboto TTFs come from `eliasnaur.com/font` (Apache 2.0), and the embedded
+embedded Roboto TTFs are under the Apache License 2.0 — see
+[roboto/LICENSE](./roboto/LICENSE) — and the embedded
 Roboto Mono TTFs are the static instances from
 [googlefonts/RobotoMono](https://github.com/googlefonts/RobotoMono) under the
 SIL Open Font License 1.1 — see [robotomono/OFL.txt](./robotomono/OFL.txt).
