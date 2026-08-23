@@ -1,79 +1,8 @@
 # AGENTS.md — font
 
 The design system's embedded typefaces, packaged as Gio font faces.
-`roboto` names the twelve weight-and-style combinations as `font.Font`
-values and returns them all, lazily parsed, from `FontFaces()`; one leaf
-package per face — `roboto/regular/normal`, `roboto/italic/bold` and the
-rest — carries a single `Font` and its own `FontFace()`, so a program can
-link one weight instead of twelve. `robotomono` packages the four monospace
-faces the same way. `jetbrainsmono` is the same four-face layout under the
-typeface name "JetBrains Mono", packaged beside Roboto Mono and not part of
-the default collection. `notosansmono` is a fourth family and a single
-face, carrying the symbols the other two lack; it is opt-in rather than
-part of the default typography's collection, and the note below says why
-that is the design. `notocoloremoji` is a fifth family and a single face,
-carrying Noto Color Emoji as an optional fallback; it is not part of the
-default typography's collection either, and the note below says why.
 
-**Layer.** Tier 0 of ADR-001's table — a leaf, needing only Gio; every TTF
-is embedded in this repository. It is in the tier table rather than the
-support row because the faces it packages are the design system's own, not
-a general-purpose library that happens to be usable from it. Its root
-module imports nothing else in the organization. That direction is measured
-rather than typed — `scripts/check-layers.sh --edges` reports the graph and
-`scripts/sync-agents.sh` renders these sentences from it — so correcting
-them here changes nothing. The other direction is measured too and
-deliberately not written down: the gate checks the graph both ways, but a
-public API's consumers are unknowable, so this file says what its module
-needs and never who needs it.
-
-**Read the canonical guide before you write code against this module.** It is
-the organization's one agent guide — the module inventory with current tags,
-the application skeleton, the MVU loop and rx semantics, typography, and the
-pitfalls that are not guessable. It lives exactly once, in `vibrantgio/workbench` —
-the repository that showcases building applications with Vibrant Gio —
-and this file links it rather than copying it:
+Read the org guide before you write code against this module:
 
     https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt
 
-**Module.** `github.com/vibrantgio/font`, one module at the repository root.
-
-**Build and test.** From the repository root:
-
-    go build ./... && go test ./...
-
-**`notosansmono` is optional, and keeping it optional is the design.** It is
-Noto Sans Mono Regular — one weight — carrying the arrows, box drawing, block
-elements, geometric shapes, punctuation and operators Roboto and Roboto Mono
-lack. Do **not** add it to `tokens.DefaultTypography.Faces`: the default
-typography's shaper leaves system fonts on, so a desktop already covers those
-characters and more, and putting this face in the default would link 596 KB
-into every binary that draws text to duplicate the platform. It is for the case with no
-platform to fall back to — a container, a kiosk — and for a test that
-legitimately draws a symbol while keeping its faces pinned. Both append it the
-same way, in one line:
-
-    tokens.DefaultTypography.WithFaces(notosansmono.FontFace())
-
-The package comment carries the measured coverage table and the file's
-provenance and SHA-256; `notosansmono_test.go` asserts that table block by
-block, so change the TTF and the test tells you what moved.
-
-**`notocoloremoji` is optional, and keeping it optional is the design.** It is
-Noto Color Emoji Regular — one weight — carrying the CBDT/PNG color emoji
-the rest of the collection cannot resolve. Do **not** add it to
-`tokens.DefaultTypography.Faces`: putting 9.9 MB in the default would parse
-that TTF on every golden and every pinned shaper in the organization, and no
-existing golden contains emoji. Gio's system fallback does not supply a
-color-emoji face either, so a document that draws emoji appends this one
-the same way as the symbol face:
-
-    tokens.DefaultTypography.WithFaces(notocoloremoji.FontFace())
-
-Nothing names `"Noto Color Emoji"` as a role's Typeface; the shaper reaches
-it only as fallback. The live stream wears it: `Typography.WithEmoji` /
-`EmojiTypography()` append this face, and `LiveTheme` / `Brand` emit that
-value. Goldens stay on `DefaultTypography`. The package comment records
-the file's SHA-256, that the face is one 109 ppem CBDT/PNG strike, and the
-measured ZWJ behaviour (go-text applies the face's GSUB; this package does
-not compose sequences).
