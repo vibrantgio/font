@@ -2,9 +2,8 @@
 // packaged as Gio font faces under the typeface name "Roboto Mono".
 //
 // The family mirrors the roboto package's per-weight layout, but only as far
-// as real use: the markdown/highlight path shapes code at normal and bold, in
-// upright and italic, so exactly those four faces are packaged — no thin,
-// light, medium or black.
+// as code shaping needs: normal and bold, in upright and italic, so exactly
+// those four faces are packaged — no thin, light, medium or black.
 //
 // The TTFs are the static instances from the Roboto Mono project,
 // https://github.com/googlefonts/RobotoMono (fonts/ttf/), retrieved from the

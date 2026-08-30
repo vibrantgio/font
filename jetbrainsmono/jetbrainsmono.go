@@ -2,9 +2,8 @@
 // reading code — packaged as Gio font faces under the typeface name
 // "JetBrains Mono".
 //
-// The family mirrors the robotomono package's layout: the four faces the
-// markdown/highlight path shapes code with — normal and bold, in upright and
-// italic.
+// The family mirrors the robotomono package's layout: the four faces code
+// shaping needs — normal and bold, in upright and italic.
 //
 // The TTFs are the static instances from the JetBrains Mono project,
 // https://github.com/JetBrains/JetBrainsMono (fonts/ttf/), retrieved from the
