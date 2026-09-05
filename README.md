@@ -6,7 +6,7 @@ color-emoji face — packaged as Gio font faces, for
 [Vibrant Gio](https://github.com/vibrantgio),
 a design system for native desktop applications on macOS, Windows and Linux,
 written in pure Go on [Gio](https://gioui.org). This repository is the
-typefaces, and nothing else: no theme, no scale, no widgets.
+typefaces, and nothing else: no theme, no scale, no components.
 
 Gio does not ship Roboto. It ships `gioui.org/font/gofont`, the Go typeface,
 and that is the collection every example in the Gio world reaches for. Getting
@@ -162,7 +162,7 @@ professions, skin tones) shape to one glyph. This package does not
 compose sequences itself.
 
 Once the collection is in the shaper, its typefaces become the shaper's default
-families, so a widget that lays text out with a zero `font.Font{}` — empty
+families, so a component that lays text out with a zero `font.Font{}` — empty
 typeface, Normal weight — resolves to Roboto without naming it. That is how
 [style](https://github.com/vibrantgio/style)'s type scale gets Roboto while
 naming only weights.
@@ -189,8 +189,8 @@ Honest about what does not work yet. Every count below is measured.
   returns an error; both `panic` if `opentype.Parse` rejects the TTF. The bytes
   are compiled in, so this cannot fail at run time for a build that linked, but
   there is no seam for a caller-supplied font file either.
-- **These five families are the only ones.** There is no API to register
-  another typeface, so an application that wants its own brand face cannot get
+- **These five families are the only ones.** There is no API to register a
+  typeface beyond these five, so an application that wants its own brand face cannot get
   one through this module — it builds the `font.FontFace` itself. Adding it to
   the theme is one line, though: `tokens.DefaultTypography.WithFaces(face)`.
   JetBrains Mono is packaged here and is not in `DefaultTypography`: Roboto
