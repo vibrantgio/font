@@ -38,9 +38,9 @@ package builds the default `Typography`'s face collection from
 that shapes text through the theme renders these faces — which is why the
 tier table carries a `font` row at all. The other is the frozen
 [style](https://github.com/vibrantgio/style) module, whose deprecated scale
-still pulls in five of the upright leaves. The old defect — every component
-compiling in gofont — is gone the hard way: a no-gofont lint in components, effects,
-patterns and markdown fails `go test` on the import.
+pulls in five of the upright leaves. No component compiles in gofont: a
+no-gofont lint in components, effects, patterns and markdown fails `go test`
+on the import.
 
 ```sh
 go get github.com/vibrantgio/font
